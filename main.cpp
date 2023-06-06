@@ -10,11 +10,12 @@ int start(){
     int choice;
     cout << "1:Matrix addition/subtraction" << endl;   
     cout << "2:Matrix multiplication" << endl;  
-    cout << "3:Inverse matrix" << endl;  
-    cout << "4:Reduced row echelon form" << endl;  
-    cout << "5:Rank" << endl;  
-    cout << "6:System of equation" << endl;
-    cout << "7:Exit" << endl;  
+    cout << "3:Determinant" << endl;  
+    cout << "4:Inverse Matrix" << endl;  
+    cout << "5:Transpose" << endl; 
+    cout << "6:Reduced row echelon form and Rank" << endl;
+    cout << "7:System of equation" << endl;
+    cout << "8:Exit" << endl;  
     cout << "Enter the corresponding index to start the function: "; 
     cin >> choice;
     return choice;
@@ -142,7 +143,8 @@ int main(){
             case 4:{}
             case 5:{}
             case 6:{}
-            case 7:{
+            case 7:{}
+            case 8:{
                 flag=0;
                 break;
             }
