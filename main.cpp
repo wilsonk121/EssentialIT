@@ -7,15 +7,15 @@ using namespace std;
 
 int start(){
     int choice;
-    cout<<"1:Matrix addition/subtraction"<<endl;   
-    cout<<"2:Matrix multiplication"<<endl;  
-    cout<<"3:Inverse matrix"<<endl;  
-    cout<<"4:Reduced row echelon form"<<endl;  
-    cout<<"5:Rank"<<endl;  
-    cout<<"6:System of equation"<<endl;
-    cout<<"7:Exit"<<endl;  
-    cout<<"Enter the corresponding index to start the function: "; 
-    cin>>choice;
+    cout << "1:Matrix addition/subtraction" << endl;   
+    cout << "2:Matrix multiplication" << endl;  
+    cout << "3:Inverse matrix" << endl;  
+    cout << "4:Reduced row echelon form" << endl;  
+    cout << "5:Rank" << endl;  
+    cout << "6:System of equation" << endl;
+    cout << "7:Exit" << endl;  
+    cout << "Enter the corresponding index to start the function: "; 
+    cin >> choice;
     return choice;
 }
 
@@ -72,14 +72,11 @@ int main(){
                 }
                 cout << "\nMatrix 1:" << endl;
                 display(M1, rows, columns);
-
                 cout << "\nMatrix 2:" << endl;
                 display(M2, rows, columns);
-
                 cout << "\nAddition of Matrix 1 and Matrix 2:" << endl;
                 addition(M1, M2, result, rows, columns);
                 display(result, rows, columns);
-
                 cout << "\nSubtraction of Matrix 1 and Matrix 2:" << endl;
                 subtraction(M1, M2, result, rows, columns);
                 display(result, rows, columns);
