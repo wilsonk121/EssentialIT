@@ -52,11 +52,19 @@ int main(){
         choice = start();
         switch(choice){
             case 1:{
-                int rows, columns;
+                int rows=1, columns;
                 cout << "Enter the number of rows: ";
                 cin >> rows;
+                while (rows < 1 || rows > 10){
+                    cout << "Invalid input,Please enter again." << endl;
+                    cin >> rows;
+                }
                 cout << "Enter the number of columns: ";
                 cin >> columns;
+                while (columns < 1 || columns > 10){
+                    cout << "Invalid input,Please enter again." << endl;
+                    cin >> columns;
+                }
                 int M1[rows][10], M2[rows][10], result[rows][10];
                 cout << "Enter the elements of Matrix 1:" << endl;
                 for (int i = 0; i < rows; i++) {
@@ -103,4 +111,4 @@ int main(){
 
     return 0;
 
-} 
+}
