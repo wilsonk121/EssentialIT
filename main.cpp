@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <cmath>
-#include <vector>
+
 using namespace std;
 
 const int max_number = 10;
@@ -21,7 +21,7 @@ int start(){
     return choice;
 }
 
-void display(int M[][max_number],int rows, int columns){
+void display(double M[][max_number],int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
             cout << M[i][j] << " ";
@@ -30,7 +30,7 @@ void display(int M[][max_number],int rows, int columns){
     }
 }
 
-void addition(int M1[][max_number], int M2[][max_number], int result[][max_number], int rows, int columns){
+void addition(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
             result[i][j] = M1[i][j] + M2[i][j];
@@ -38,7 +38,7 @@ void addition(int M1[][max_number], int M2[][max_number], int result[][max_numbe
     }
 }
 
-void subtraction(int M1[][max_number], int M2[][max_number], int result[][max_number], int rows, int columns){
+void subtraction(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
             result[i][j] = M1[i][j] - M2[i][j];
@@ -46,7 +46,7 @@ void subtraction(int M1[][max_number], int M2[][max_number], int result[][max_nu
     }
 }
 
-void multiplication(int M1[][max_number], int M2[][max_number], int result[][max_number], int rows, int columns1, int columns2){
+void multiplication(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns1, int columns2){
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns2; j++) {
             result[i][j] = 0;
@@ -57,10 +57,48 @@ void multiplication(int M1[][max_number], int M2[][max_number], int result[][max
     }
 }
 
+double determinant(double M[max_number][max_number], int size){
+    double det = 0;
+    if (size == 1){
+        det = M[0][0];
+        return det;
+    } 
+    else if (size == 2){
+        det = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+        return det;
+    }
+    else{
+        det = 0;
+        for (int i = 0; i < size; i++){
+            double subM[max_number][max_number];
+            int subrow = 0;
+            int subcolumn = 0;
+            for (int j = 1; j < size; j++){
+                subcolumn = 0;
+                for (int k = 0; k < size; k++){
+                    if (k != i){
+                        subM[subrow][subcolumn] = M[j][k];
+                        subcolumn++;
+                    }
+                }
+                subrow++;
+            }
+            int subdeterminant = determinant(subM, size - 1);
+            if (i % 2 == 0){
+                det += M[0][i] * subdeterminant;
+            }
+            else{
+                det -= M[0][i] * subdeterminant;
+            }
+        }
+    }
+    return det;
+}
+
 int main(){
     bool flag=1;
     int choice=0;
-    cout<<"Welcome to matrix calculator. "<<endl; 
+    cout << "Welcome to matrix calculator. " << endl; 
     while(flag==1){
         choice = start();
         switch(choice){
@@ -78,7 +116,7 @@ int main(){
                     cout << "Invalid input,Please enter again." << endl;
                     cin >> columns;
                 }
-                int M1[rows][10], M2[rows][10], result[rows][10];
+                double M1[rows][10], M2[rows][10], result[rows][10];
                 cout << "Enter the elements of Matrix 1:" << endl;
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns; j++) {
@@ -101,6 +139,7 @@ int main(){
                 cout << "\nSubtraction of Matrix 1 and Matrix 2:" << endl;
                 subtraction(M1, M2, result, rows, columns);
                 display(result, rows, columns);
+                break;
             }
             case 2:{
                 int rows1, rows2, columns1, columns2;
@@ -112,9 +151,7 @@ int main(){
                 cin >> rows2;
                 cout << "Enter the number of columns of Matrix 2: ";
                 cin >> columns2;
-                int M1[rows1][max_number];
-                int M2[rows2][max_number];
-                int result[rows1][max_number];
+                double M1[rows1][max_number], M2[rows2][max_number], result[rows1][max_number];
                 if (columns1 != rows2) {
                     cout << "Error: The number of columns of Matrix 1 must be equal to the number of rows of Matrix 2." << endl;
                     return 0;
@@ -138,8 +175,33 @@ int main(){
                 cout << "\nMultiplication of Matrix 1 and Matrix 2:" << endl;
                 multiplication(M1, M2, result, rows1, columns1, columns2);
                 display(result, rows1, columns2);
+                break;
             }
-            case 3:{}
+            case 3:{
+                int size;
+                double M[max_number][max_number];
+                cout << "Enter the size of the square matrix: ";
+                cin >> size;
+                if (size <= 0 || size > max_number) {
+                    cout << "Error: Invalid matrix size." << endl;
+                    return 0;
+                }
+                cout << "Enter the elements of the matrix:" << endl;
+                for (int i = 0; i < size; i++) {
+                    for (int j = 0; j < size; j++) {
+                        cin >> M[i][j];
+                    }
+                }
+                cout << "\nThe matrix you entered:" << endl;
+                for (int i = 0; i < size; i++) {
+                    for (int j = 0; j < size; j++) {
+                        cout << M[i][j] << " ";
+                    }
+                    cout << endl;
+                }
+                cout << "\nThe determinant of the matrix is: " << determinant(M, size) << endl;
+                break;
+            }
             case 4:{}
             case 5:{}
             case 6:{}
