@@ -19,8 +19,6 @@ int start(){
     return choice;
 }
 
-void 
-
 int main(){
     bool flag=1;
     int choice=0;
