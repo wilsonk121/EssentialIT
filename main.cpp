@@ -5,21 +5,28 @@
 #include <vector>
 using namespace std;
 
+int start(){
+    int choice;
+    cout<<"1:Matrix addition/subtraction"<<endl;   
+    cout<<"2:Matrix multiplication"<<endl;  
+    cout<<"3:Inverse matrix"<<endl;  
+    cout<<"4:Reduced row echelon form"<<endl;  
+    cout<<"5:Rank"<<endl;  
+    cout<<"6:System of equation"<<endl;
+    cout<<"7:Exit"<<endl;  
+    cout<<"Enter the corresponding index to start the function: "; 
+    cin>>choice;
+    return choice;
+}
+
+void 
 
 int main(){
     bool flag=1;
     int choice=0;
     cout<<"Welcome to matrix calculator. "<<endl; 
-    while(flag==1){   
-        cout<<"1:Matrix addition/subtraction"<<endl;   
-        cout<<"2:Matrix multiplication"<<endl;  
-        cout<<"3:Inverse matrix"<<endl;  
-        cout<<"4:Reduced row echelon form"<<endl;  
-        cout<<"5:Rank"<<endl;  
-        cout<<"6:System of equation"<<endl;
-        cout<<"7:Exit"<<endl;  
-        cout<<"Enter the corresponding index to start the function: "; 
-        cin>>choice;
+    while(flag==1){
+        choice = start();
         switch(choice){
             case 1:{}
             case 2:{}
