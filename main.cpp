@@ -21,6 +21,7 @@ int start(){
     return choice;
 }
 
+//Display the matrix
 void display(double M[][max_number],int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
@@ -30,6 +31,7 @@ void display(double M[][max_number],int rows, int columns){
     }
 }
 
+//Addition of two matrices
 void addition(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
@@ -38,6 +40,7 @@ void addition(double M1[][max_number], double M2[][max_number], double result[][
     }
 }
 
+//Subtraction of two matrices
 void subtraction(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
@@ -46,6 +49,7 @@ void subtraction(double M1[][max_number], double M2[][max_number], double result
     }
 }
 
+//Mulitplication of two matrices
 void multiplication(double M1[][max_number], double M2[][max_number], double result[][max_number], int rows, int columns1, int columns2){
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns2; j++) {
@@ -57,6 +61,7 @@ void multiplication(double M1[][max_number], double M2[][max_number], double res
     }
 }
 
+//Calculate the determinant of squared matrix
 double determinant(double M[max_number][max_number], int size){
     double det = 0;
     if (size == 1){
@@ -93,6 +98,21 @@ double determinant(double M[max_number][max_number], int size){
         }
     }
     return det;
+}
+
+//Transpose of the squared matrix
+void transpose(double M[][max_number], int size){
+        double result[max_number][max_number];
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                result[i][j] = M[j][i];
+            }
+        }
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                M[i][j] = result[i][j];
+            }
+        }
 }
 
 // RREF and Rank
@@ -348,8 +368,26 @@ int main(){
                 cout << "\nThe determinant of the matrix is: " << determinant(M, size) << endl;
                 break;
             }
-            case 4:{}
-            case 5:{}
+            case 4:{
+            }
+            case 5:{
+                double M[max_number][max_number];
+                int size;
+                cout << "Enter the size of matrix: ";
+                cin >> size;
+                cout << "Enter the elements of the matrix:\n";
+                for (int i = 0; i < size; i++) {
+                    for (int j = 0; j < size; j++) {
+                        cin >> M[i][j];
+                    }
+                }
+                cout << "The matrix you entered:" << endl;
+                display(M,size,size);
+                cout << "Transpose of the matrix:" << endl;
+                transpose(M,size);
+                display(M,size,size);        
+                break;
+            }
             case 6:{
                 calRREFnRank(); 
                 break; 
