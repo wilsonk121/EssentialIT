@@ -115,6 +115,57 @@ void transpose(double M[][max_number], int size){
         }
 }
 
+// Function to find the inverse of a matrix
+bool inverse(double M[][max_number], int size, double inverseM[][max_number]) {
+    // Create an identity matrix of the same size as M
+    double identity[max_number][max_number];
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (i == j) {
+                identity[i][j] = 1.0;
+            } else {
+                identity[i][j] = 0.0;
+            }
+        }
+    }
+
+    // Applying Gauss-Jordan elimination
+    for (int i = 0; i < size; i++) {
+        // Check if the current diagonal element is zero
+        if (M[i][i] == 0) {
+            cout << "Matrix is not invertible." << endl;
+            return false;
+        }
+
+        // Scale the current row to make the diagonal element 1
+        double scale = 1.0 / M[i][i];
+        for (int j = 0; j < size; j++) {
+            M[i][j] *= scale;
+            identity[i][j] *= scale;
+        }
+
+        // Perform row operations to make other elements in the column zero
+        for (int j = 0; j < size; j++) {
+            if (j != i) {
+                double factor = M[j][i];
+                for (int k = 0; k < size; k++) {
+                    M[j][k] -= factor * M[i][k];
+                    identity[j][k] -= factor * identity[i][k];
+                }
+            }
+        }
+    }
+
+    // Copy the inverse matrix to the output parameter inverseM
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            inverseM[i][j] = identity[i][j];
+        }
+    }
+
+    return true;
+}
+
 // RREF and Rank
 void calRREFnRank() { 
     float matrix[3][3]; 
@@ -369,23 +420,49 @@ int main(){
                 break;
             }
             case 4:{
-            }
-            case 5:{
-                double M[max_number][max_number];
                 int size;
-                cout << "Enter the size of matrix: ";
+                cout << "Enter the size of the square matrix: ";
                 cin >> size;
-                cout << "Enter the elements of the matrix:\n";
+
+                double M[max_number][max_number];
+                cout << "Enter the elements of the matrix:" << endl;
                 for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
                         cin >> M[i][j];
                     }
                 }
+                cout << "\nThe matrix you entered:" << endl;
+                for (int i = 0; i < size; i++) {
+                    for (int j = 0; j < size; j++) {
+                        cout << M[i][j] << " ";
+                    }
+                    cout << endl;
+                }
+                double inverseM[max_number][max_number];
+                if (inverse(M, size, inverseM)) {
+                    cout << "Inverse of the matrix:" << endl;
+                    display(inverseM, size, size);
+                }
+                break;
+            }
+            case 5:{
+                double M[max_number][max_number];
+                int rows, columns;
+                cout << "Enter the number of rows: ";
+                cin >> rows;
+                cout << "Enter the number of columns: ";
+                cin >> columns;
+                cout << "Enter the elements of the matrix:\n";
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < columns; j++) {
+                        cin >> M[i][j];
+                    }
+                }
                 cout << "The matrix you entered:" << endl;
-                display(M,size,size);
+                display(M,rows,columns);
                 cout << "Transpose of the matrix:" << endl;
-                transpose(M,size);
-                display(M,size,size);        
+                transpose(M,rows,columns);
+                display(M,rows,columns);        
                 break;
             }
             case 6:{
