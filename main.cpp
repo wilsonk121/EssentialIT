@@ -95,6 +95,152 @@ double determinant(double M[max_number][max_number], int size){
     return det;
 }
 
+// RREF and Rank
+void calRREFnRank() { 
+    float matrix[3][3]; 
+    
+    //entering the matrix
+    auto enterMatrix=[](float matrix[][3], int rows, int cols) { 
+        for (int i=0; i<rows; i++) { 
+            for (int j=0; j<cols; j++) { 
+                cout << matrix[i][j] << " "; 
+            } 
+            cout<<endl; 
+        } 
+    }; 
+  
+    //row operations  
+    auto RowOperations=[](float matrix[][3], int pRow, int pCol, int rows, int cols) { 
+        float pElement=matrix[pRow][pCol]; 
+        for (int j=0; j<cols; j++) { 
+            matrix[pRow][j]/= pElement; 
+        }   
+        for (int i=0; i<rows; i++) { 
+            if (i!=pRow) { 
+                float multiplier=matrix[i][pCol]; 
+                for (int j=0; j<cols; j++) { 
+                    matrix[i][j]-=multiplier*matrix[pRow][j]; 
+                } 
+            } 
+        } 
+    }; 
+
+    //RREF 
+    auto calRREF=[&RowOperations](float matrix[][3], int rows, int cols) { 
+        int pRow=0; 
+        int pCol=0; 
+  
+        while (pRow < rows && pCol < cols) { 
+            int maxindex=pRow; 
+            float maxvalue=abs(matrix[pRow][pCol]); 
+            for (int i= pRow + 1; i< rows; i++) { 
+                if (abs(matrix[i][pCol])>maxvalue) { 
+                    maxindex= i; 
+                    maxvalue= abs(matrix[i][pCol]); 
+                } 
+            } 
+  
+            if (maxindex!=pRow) { 
+                for (int j=0; j<cols;j++) { 
+                    float temp=matrix[pRow][j]; 
+                    matrix[pRow][j]=matrix[maxindex][j]; 
+                    matrix[maxindex][j]=temp; 
+                } 
+            } 
+  
+            RowOperations(matrix, pRow, pCol, rows, cols); 
+            pRow++; 
+            pCol++; 
+        } 
+    }; 
+  
+    //rank
+    auto calRank=[](float matrix[][3], int rows, int cols) { 
+        int rank=0; 
+  
+        for (int i=0;i<rows; i++) { 
+            bool zerorow=true; 
+            for (int j=0; j<cols; j++) { 
+                if (matrix[i][j] != 0) { 
+                    zerorow=false; 
+                    break; 
+                } 
+            } 
+            if (!zerorow) { 
+                rank++; 
+            } 
+        } 
+  
+        return rank; 
+    }; 
+  
+    cout<< "Please enter the elements of the 3x3 matrix (row, column):\n"; 
+    for(int i=0; i<3; i++) { 
+        for (int j=0; j<3; j++) { 
+            cout<<"Enter element at position ("<<i+1<< "," <<j+1<<"):"; 
+            cin>>matrix[i][j]; 
+        } 
+    } 
+  
+    cout<<"\nThe original matrix:\n"; 
+    enterMatrix(matrix, 3, 3); 
+    calRREF(matrix, 3, 3); 
+    cout<<"\nThe RREF:\n"; 
+    enterMatrix(matrix, 3, 3); 
+    int rank=calRank(matrix, 3, 3); 
+    cout<<"\nThe rank of the matrix: "<<rank<<endl; 
+} 
+
+//solving system of equations
+void solveSOE() {
+    float matrix[3][3];
+    float vector[3];
+    float solution[3];
+
+    cout<<"Enter the elements of the 3x3 matrix (row, column):\n";
+    for(int i=0; i<3; i++) {
+        for (int j=0; j<3; j++) {
+            cout<<"Enter element at position(" << i+1<< ","<<j+1<<"):";
+            cin>>matrix[i][j];
+        }
+    }
+
+    cout<<"Please enter the elements of the vector:\n";
+    for(int i=0;i<3;i++) {
+    cout<<"Please enter element at position("<< i+1<< "): ";
+    cin>>vector[i];
+    }
+
+    float determinant=matrix[0][0]*(matrix[1][1]*matrix[2][2]-matrix[1][2]*matrix[2][1])
+                    -matrix[0][1]*(matrix[1][0]*matrix[2][2]-matrix[1][2]*matrix[2][0])
+                    +matrix[0][2]*(matrix[1][0]*matrix[2][1]-matrix[1][1]*matrix[2][0]);
+
+    if (determinant==0) {
+        cout<<"The system of equations has no unique solution." << endl;
+        return;
+    }
+
+    float inverse[3][3];
+    inverse[0][0]= (matrix[1][1]*matrix[2][2]-matrix[1][2]*matrix[2][1])/ determinant;
+    inverse[0][1]=-(matrix[0][1]*matrix[2][2]-matrix[0][2]*matrix[2][1])/ determinant;
+    inverse[0][2]= (matrix[0][1]*matrix[1][2]-matrix[0][2]*matrix[1][1])/ determinant;
+    inverse[1][0]=-(matrix[1][0]*matrix[2][2]-matrix[1][2]*matrix[2][0])/ determinant;
+    inverse[1][1]= (matrix[0][0]*matrix[2][2]-matrix[0][2]*matrix[2][0])/ determinant;
+    inverse[1][2]=-(matrix[0][0]*matrix[1][2]-matrix[0][2]*matrix[1][0])/ determinant;
+    inverse[2][0]= (matrix[1][0]*matrix[2][1]-matrix[1][1]*matrix[2][0])/ determinant;
+    inverse[2][1]=-(matrix[0][0]*matrix[2][1]-matrix[0][1]*matrix[2][0])/ determinant;
+    inverse[2][2]= (matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0])/ determinant;
+
+    for (int i=0; i< 3; i++) {
+        solution[i]=inverse[i][0]*vector[0]+inverse[i][1]*vector[1]+inverse[i][2]*vector[2];
+    }
+
+    cout<<"The solution of the system of equations:\n";
+    for (int i=0; i<3; i++) {
+        cout<<"x" << i+1<<" = "<< solution[i]<< endl;
+    }
+}
+
 int main(){
     bool flag=1;
     int choice=0;
@@ -204,8 +350,14 @@ int main(){
             }
             case 4:{}
             case 5:{}
-            case 6:{}
-            case 7:{}
+            case 6:{
+                calRREFnRank(); 
+                break; 
+            }
+            case 7:{
+                solveSOE();
+                break;
+            }
             case 8:{
                 flag=0;
                 break;
